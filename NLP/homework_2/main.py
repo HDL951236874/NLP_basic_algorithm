@@ -1,6 +1,31 @@
 import numpy as np
 import csv
 
+ls = ['abc',
+      'brown',
+      # 'chat80',
+      # 'cmudict',
+      'conll2000',
+      'conll2002',
+      'genesis',
+      'gutenberg',
+      # 'ieer',
+      'inaugural',
+      'indian',
+      'names',
+      # 'ppattach',
+      # 'senseval',
+      'shakespeare',
+      'sinica_treebank',
+      'state_union',
+      'stopwords',
+      # 'timit',
+      'toolbox',
+      'treebank',
+      'udhr',
+      'webtext',
+      'words']
+
 def spelling_detect(wor_A, wor_B):
     M = np.zeros((len(wor_A)+1,len(wor_B)+1))
     for i in range(len(wor_A)):
@@ -16,10 +41,8 @@ def spelling_detect(wor_A, wor_B):
                 M[n][m] = min(M[n-1][m-1]+1, M[n-1][m]+1, M[n][m-1]+1)
 
     return M[-1][-1]
-    # return M[-1][-1]
 
 
-    # print(m)
 def diction():
     word_dic=[]
     csv_reader = csv.reader(open('dic.txt',mode='r'))
@@ -38,9 +61,6 @@ def diction():
             if m not in W[len(m)]:
                 W[len(m)].append(m)
 
-
-
-    print(1)
     import pickle
     f = open('dic.dat',mode='wb')
     pickle.dump(W,f)
@@ -49,6 +69,11 @@ def diction():
 def Use_dic():
     import pickle
     fr = open('dic.dat',mode='rb')
+    return pickle.load(fr)
+
+def Use_misspelling():
+    import pickle
+    fr = open('misspelling.dat',mode='rb')
     return pickle.load(fr)
 
 def Find_Surroundings(str, W):
@@ -66,16 +91,60 @@ def Find_Surroundings(str, W):
         if spelling_detect(wrong_word,i) == 1.0:
             w.append(i)
 
-    return w
+    return w,wrong_word
+
+def choose_word_P1(w):
+
+    num = 0
+    for n in ls:
+        for m in eval(n+'.fileids()'):
+            comm = n+".words('"+m+"')"
+            word = eval(comm)
+            num += word.count(w)
+
+    return num/8061333
+
+def choose_word_P2(L,w,ww):
+    try:
+        if ww in L[w]:
+            return float(1/len(L[w]))
+        else:
+            return float(1/len(L[w]))
+
+    except:
+        return 0.0
 
 
+def misspelling():
+    csv_reader = csv.reader(open('misspelling.txt',mode='r'))
+    l = {}
+    f = ''
+    for n in csv_reader:
+        if n[0][0] == '$':
+            f = n[0][1:]
+            l[f] = []
+            continue
+        l[f].append(n[0])
+
+    import pickle
+    f = open('misspelling.dat',mode='wb')
+    pickle.dump(l,f)
 
 
 
 if __name__ == '__main__':
+    from nltk.corpus import *
     W = Use_dic()
+    L = Use_misspelling()
+    l = []
+    w,ww = Find_Surroundings('acress',W)
+    w = list(set(w))
+    for n in w:
+        p1 = choose_word_P1(n)
+        p2 = choose_word_P2(L,n,ww)
+        l.append(p1*p2)
 
-    print(Find_Surroundings('this is a godd day', W))
+    print(w[l.index(max(l))])
 
 
 
