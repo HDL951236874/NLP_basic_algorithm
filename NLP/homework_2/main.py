@@ -130,21 +130,36 @@ def misspelling():
     f = open('misspelling.dat',mode='wb')
     pickle.dump(l,f)
 
+def misspelling_2():
+    csv_reader = csv.reader(open('misspelling_2.txt',mode='r'))
+    l = {}
+    for n in csv_reader:
+        print(n)
+        l[n[0].split(' ')[0][0:-1]] = [x for x in n[0].split(' ')[1:]] + n[1:]
+
+    print(1)
+    import pickle
+    f = open('misspelling_2.dat',mode = 'wb')
+    pickle.dump(l,f)
+
 
 
 if __name__ == '__main__':
-    from nltk.corpus import *
-    W = Use_dic()
-    L = Use_misspelling()
-    l = []
-    w,ww = Find_Surroundings('acress',W)
-    w = list(set(w))
-    for n in w:
-        p1 = choose_word_P1(n)
-        p2 = choose_word_P2(L,n,ww)
-        l.append(p1*p2)
+    # from nltk.corpus import *
+    # W = Use_dic()
+    # L = Use_misspelling()
+    # l = []
+    # w,ww = Find_Surroundings('acress',W)
+    # w = list(set(w))
+    # for n in w:
+    #     p1 = choose_word_P1(n)
+    #     p2 = choose_word_P2(L,n,ww)
+    #     l.append(p1*p2)
+    #
+    # print(w[l.index(max(l))])
 
-    print(w[l.index(max(l))])
+
+    misspelling_2()
 
 
 
