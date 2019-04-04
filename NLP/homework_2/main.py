@@ -77,6 +77,7 @@ def Use_misspelling():
     return pickle.load(fr)
 
 def Find_Surroundings(str, W):
+    wrong_word = ''
     l = str.split(' ')
     '''find the wrong word'''
     for i in l:
