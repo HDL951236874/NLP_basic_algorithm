@@ -33,13 +33,15 @@ def spelling_detect(wor_A, wor_B):
     for i in range(len(wor_B)):
         M[0][i+1] = i+1
 
+    print(M)
     for n in range(1,M.shape[0]):
         for m in range(1,M.shape[1]):
-            if wor_A[n-1] == wor_B[m-1]:
+            if wor_A[n-1] == wor_B[m-1]:    
                 M[n][m] = min(M[n-1][m-1], M[n-1][m]+1, M[n][m-1]+1)
             else:
                 M[n][m] = min(M[n-1][m-1]+1, M[n-1][m]+1, M[n][m-1]+1)
 
+    print(M)
     return M[-1][-1]
 
 
@@ -127,6 +129,18 @@ def misspelling():
             continue
         l[f].append(n[0])
 
+    wm = np.zeros([26,26])
+    abc = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    for k,v in l.items():
+        for n in v:
+            if len(k)!=len(n):continue
+            else:
+                for i in range(len(k)):
+                    if (k[i] != n[i]) and (i<len(k)-1) and (k[i+1]==n[i+1]):
+                        if k[i] == "'" or n[i] == "'" or k[i] == '-' or n[i]=='-' or k[i] == '_' or n[i] == '_':continue
+                        wm[abc.index(k[i].lower())][abc.index(n[i].lower())] +=1
+
+    print(wm)
     import pickle
     f = open('misspelling.dat',mode='wb')
     pickle.dump(l,f)
@@ -138,7 +152,7 @@ def misspelling_2():
         print(n)
         l[n[0].split(' ')[0][0:-1]] = [x for x in n[0].split(' ')[1:]] + n[1:]
 
-    print(1)
+
     import pickle
     f = open('misspelling_2.dat',mode = 'wb')
     pickle.dump(l,f)
@@ -146,7 +160,7 @@ def misspelling_2():
 
 
 if __name__ == '__main__':
-    # from nltk.corpus import *
+    from nltk.corpus import *
     # W = Use_dic()
     # L = Use_misspelling()
     # l = []
@@ -159,9 +173,14 @@ if __name__ == '__main__':
     #
     # print(w[l.index(max(l))])
 
+    # spelling_detect('good','godd')
+    # misspelling_2()
+    # misspelling()
 
-    misspelling_2()
-
-
+    # W = Use_dic()
+    # w,ww = Find_Surroundings('godd',W)
+    # print(w)
+    # print(ww)
+    print(np.random.randint(100,999,10))
 
 
