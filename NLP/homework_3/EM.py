@@ -57,12 +57,6 @@ def run():
     m_2 = np.array([4 + 2 * np.random.rand(), 4 + 2 * np.random.rand()])
     c_2 = np.array(
         [[2 * np.random.rand(), -1 + 2 * np.random.rand()], [2 * np.random.rand(), -1 + 2 * np.random.rand()]])
-
-    print(m_1)
-    print(c_1)
-    print(m_2)
-    print(c_2)
-
     lr = []
 
     flag = False
@@ -93,19 +87,4 @@ def run():
 
 if __name__ == '__main__':
     run()
-    # mean1 = np.array([5, 5])
-    # cov1 = np.array([[2, 0], [0, 2]])
-    # mean2 = np.array([0, 0])
-    # cov2 = np.array([[1, 0], [0, 1]])
-    # print(GM(mean1,cov1,5,5))
-    # print(GM(mean1,cov1,0.5,-0.5))
 
-
-
-
-
-
-    # plt.scatter([x[0] for x in test1], [x[1] for x in test1])
-    # plt.scatter([x[0] for x in test2], [x[1] for x in test2])
-    #
-    # plt.show()
