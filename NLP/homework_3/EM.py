@@ -6,12 +6,11 @@ import math
 def GM(mean, cov, x, y):
     # print(cov)
     v = 1 / (2 * math.pi * cov[0][0] * cov[1][1] * math.sqrt(1 - 0.5)) * math.exp(
-        -1 / (2 * (1 - cov[1][0] ** 2)) * (
+        -1 / (2 * (1 - 0.5 ** 2)) * (
                 (x - mean[0]) ** 2 / cov[0][0] ** 2 - 2 * cov[0][1] * (x - mean[0]) * (y - mean[1]) / (
                 cov[0][0] * cov[1][1]) + (y - mean[1]) ** 2 / cov[1][1] ** 2))
 
     return v
-
 
 def update(lx, ly, lr):
     new_m_1 = np.array([sum(lx * lr) / sum(lr), sum(ly * lr) / sum(lr)])
@@ -75,7 +74,6 @@ def run():
         flag_2 = stop(n_m_2, m_2, n_c_2, c_2)
 
         flag = flag_1 and flag_2
-        # print(flag)
 
         m_1, c_1, m_2, c_2 = n_m_1, n_c_1, n_m_2, n_c_2
 
@@ -83,7 +81,6 @@ def run():
     print(c_1)
     print(m_2)
     print(c_2)
-
 
 if __name__ == '__main__':
     run()
